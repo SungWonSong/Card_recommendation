@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('include/include') %>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card 3D view Parallax</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery 로드 -->
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <link rel="stylesheet" href="./page3.css">
+    <script defer src="./page3.js"></script>
+    <style>
+       body {
+           background-color: #000;
+           font-family: 'Varela Round', sans-serif;
+           color: #fff;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           height: 100vh;
+           margin: 0; /* body의 기본 여백 제거 */
+           overflow-y: auto; /* 화면이 작을 때 스크롤을 가능하게 함 */
+       }
+
+       #container {
+           display: flex;
+           align-items: flex-start; /* 각 카드와 댓글을 위쪽 정렬 */
+           justify-content: center;
+           gap: 180px; /* 카드 사이의 기본 간격 */
+           flex-wrap: wrap; /* 화면 크기에 따라 카드가 줄바꿈되도록 */
+           padding: 20px; /* 화면 상하단에 여백을 추가 */
+       }
+
+       .perspective {
+           width: 100%;
+           perspective: 1000px;
+       }
+
+       #top {
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           margin: auto;
+           flex-direction: column; /* 카드와 댓글이 세로로 정렬되도록 */
+       }
+
+       .card {
+           width: 270px;
+           height: 413px;
+           margin: auto;
+           box-shadow: 0 70px 63px -60px #494848;
+           transform-style: preserve-3d;
+           transition: transform .05s linear;
+           position: relative; /* 자식 요소의 위치 조정을 위해 position 속성 추가 */
+       }
+
+       .card .thumb {
+           background-size: cover;
+           height: 100%;
+           width: 100%;
+           border-radius: 15px;
+           position: relative;
+       }
+
+       .card .thumb:after {
+           background: inherit;
+           content: '';
+           display: block;
+           position: absolute;
+           left: -60px;
+           top: 40px;
+           width: 100%;
+           height: 108%;
+           z-index: -1;
+           filter: blur(55px);
+       }
+
+       .card h2 {
+           position: absolute;
+           top: 20px; /* 카드 내에서의 위쪽 위치 조정 */
+           left: 20px; /* 카드 내에서의 왼쪽 위치 조정 */
+           font-size: 30px; /* 텍스트 크기 조정 */
+           font-weight: 700; /* 텍스트 두께 조정 */
+           transform: translateZ(80px);
+           margin: 0; /* 기본 마진 제거 */
+       }
+
+       .card span {
+           position: absolute;
+           bottom: 20px; /* 카드 내에서의 아래쪽 위치 조정 */
+           left: 20px; /* 카드 내에서의 왼쪽 위치 조정 */
+           font-size: 20px; /* 텍스트 크기 조정 */
+           font-weight: 400; /* 텍스트 두께 조정 */
+           transform: translateZ(35px);
+           margin: 0; /* 기본 마진 제거 */
+       }
+
+       .comments {
+           width: 270px;
+           margin-top: 50px; /* 카드와 댓글 사이의 간격을 조정 */
+           background: #1A1A1A;
+           border-radius: 10px;
+           padding: 10px;
+       }
+
+       .comment {
+           margin-bottom: 10px; /* 댓글 사이의 간격 */
+           height: 150px; /* 각 댓글의 고정 높이 */
+           overflow-y: auto; /* 내용이 넘칠 경우 스크롤바 표시 */
+           position: relative; /* 자식 요소의 위치를 기준으로 조정할 수 있도록 relative 설정 */
+           display: flex; /* flexbox 사용 */
+           flex-direction: column; /* 요소를 세로로 정렬 */
+           justify-content: space-between; /* 요소들 사이의 간격을 균등하게 분배 */
+       }
+
+       .comment-header {
+           display: flex;
+           align-items: center;
+       }
+
+       .comment-header img {
+           border-radius: 50%;
+           margin-right: 10px;
+       }
+
+       .comment-author {
+           font-weight: bold;
+           margin-right: auto;
+       }
+
+       .comment-options {
+           font-size: 12px;
+           color: #bbb;
+       }
+
+       .comment-body {
+           margin: 10px 0;
+           flex-grow: 1; /* 중간 부분이 남은 공간을 차지하도록 함 */
+       }
+
+       .comment-footer {
+           display: flex;
+           align-items: center;
+           justify-content: flex-start; /* 요소들이 왼쪽 정렬되도록 설정 */
+           font-size: 12px;
+           flex-wrap: nowrap; /* 요소가 한 줄에 나오도록 함 */
+           width: 100%; /* 부모 요소의 너비에 맞게 조정 */
+           padding: 5px 10px; /* 좌우 여백 확보 및 높이 축소 */
+           box-sizing: border-box; /* padding을 width에 포함 */
+           background-color: #1A1A1A; /* 기본 배경색 */
+           min-height: 30px; /* 최소 높이 설정 */
+       }
+
+       .comment-footer span {
+           display: flex;
+           align-items: center; /* 자식 요소를 수직 중앙 정렬 */
+           margin-left: 10px; /* 요소 사이의 간격을 설정 */
+           white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 함 */
+       }
+
+       .comment-footer .likes,
+       .comment-footer .comments,
+       .comment-footer .comment-action {
+           display: flex;
+           align-items: center; /* 자식 요소를 수직 중앙 정렬 */
+           margin: 0; /* 불필요한 마진 제거 */
+       }
+
+       /* 반응형 디자인을 위한 미디어 쿼리 */
+       @media (max-width: 1300px) {
+           body {
+               align-items: flex-start; /* 세로 정렬 시 화면 상단부터 정렬되도록 */
+               overflow-y: auto; /* 화면이 작을 때 스크롤을 가능하게 함 */
+           }
+
+           #container {
+               gap: 20px; /* 더 작은 화면에서 카드 간격 더 축소 */
+               flex-direction: column; /* 카드가 세로로 배열되도록 변경 */
+           }
+
+           .card {
+               width: 200px; /* 작은 화면에서 카드 크기 조정 */
+               height: 300px;
+           }
+
+           .card h2 {
+               font-size: 24px; /* 작은 화면에서 텍스트 크기 조정 */
+               top: 10px; /* 작은 화면에서 위치 조정 */
+               left: 10px;
+           }
+
+           .card span {
+               font-size: 18px; /* 작은 화면에서 텍스트 크기 조정 */
+               bottom: 10px; /* 작은 화면에서 위치 조정 */
+               left: 10px;
+           }
+
+           .comments {
+               width: 200px; /* 작은 화면에서 댓글 박스 크기 조정 */
+               margin-top: 30px; /* 작은 화면에서 카드와 댓글 사이의 간격 */
+           }
+       }
+
+       /* 모달 창 CSS 추가 */
+       .modal {
+           display: none;
+           position: fixed;
+           z-index: 1;
+           left: 0;
+           top: 0;
+           width: 100%;
+           height: 100%;
+           overflow: auto;
+           background-color: rgb(0, 0, 0);
+           background-color: rgba(0, 0, 0, 0.4);
+       }
+
+       .modal-content {
+            background-color: #000000;
+            margin: 15% auto;
+            padding: 20px;
+            border: none;
+            width: 80%;
+            border-radius: 10px;
+            height: 80vh;
+            opacity: 0.82; /* 투명도 설정 */
+        }
+
+       .close {
+           color: #aaa;
+           float: right;
+           font-size: 28px;
+           font-weight: bold;
+       }
+
+       .close:hover,
+       .close:focus {
+           color: black;
+           text-decoration: none;
+           cursor: pointer;
+       }
+
+       #comment-iframe {
+           width: 100%;
+           height: 78vh;
+       }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <% cards.forEach(card => { %>
+            <div id="top">
+                <div class="perspective">
+                    <div class="card" id="card1">
+                        <!-- 카드 이미지 여기서 수정  -->
+                        <div class="thumb" data-url="/detail/<%= card.card_id %>" style="background-image: url(https://images.unsplash.com/photo-1478358161113-b0e11994a36b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a11da19e81415e5a81029aade9df7774&auto=format&fit=crop&w=668&q=80)"></div>
+                        <h2><%= card.card_name %></h2>
+                        <span><%= card[`card_${category}`] %></span>
+                    </div>
+                    <div class="comments">
+                        <% if (card.comments && card.comments.length > 0) { %>
+                            <!-- 상위 2개의 댓글만 가져오기 -->
+                            <% card.comments.slice(0, 2).forEach((comment, index) => { %>
+                            <div class="comment">
+                                <div class="comment-header">
+                                    <% if (index === 0) { %>
+                                        <span style="font-size: 40px;">🥇</span>
+                                    <% } else if (index === 1) { %>
+                                        <span style="font-size: 40px;">🥈</span>
+                                    <% } else { %>
+                                        <img src="https://via.placeholder.com/40" alt="Profile Image">
+                                    <% } %>
+                                    <div class="comment-author"><%= comment.User.nickname %></div>
+                                    <div class="comment-options"><%= comment.createdAt.toLocaleDateString() %></div>
+                                </div>
+                                <div class="comment-body" data-card-id="<%= card.card_id %>" data-comment-id="<%= comment.comment_id %>">
+                                    <%= comment.comment_contents %>
+                                </div>
+                                <div class="comment-footer">
+                                    <span class="likes">🔥</span> <!-- 좋아요 수를 나타내는 부분 -->
+                                    <span class="comments"><%= comment.dataValues.likeCount %></span> <!-- 댓글 수를 나타내는 부분 (현재 고정 값) -->
+                                    <span class="comment-action" data-likes="<%= comment.dataValues.likeCount %>">좋아요</span>
+                                </div>
+                            </div>
+                            <% }) %>
+                        <% } else { %>
+                            <div class="no-comments" data-url="/comment?card_id=<%= card.card_id %>">
+                                아직 입력된 댓글이 없습니다. 댓글 작성하기
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        <% }) %>        
+    </div>
+
+    <!-- 모달 창 HTML 추가 -->
+    <div id="comment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <iframe id="comment-iframe" src="" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function addCardMovement() {
+            $('.card').on("mousemove", function(t) {
+                var e = -($(this).width() / 2 - t.offsetX) / 10, // 좌우 움직임 조정
+                    n = ($(this).height() / 2 - t.offsetY) / 10; // 상하 움직임 조정
+                $(this).css("transform", "rotateY(" + e + "deg) rotateX(" + n + "deg)");
+            });
+            $('.card').on("mouseleave", function() { // 마우스가 카드에서 벗어날 때 초기화
+                $(this).css("transform", "rotateY(0deg) rotateX(0deg)");
+            });
+        }
+
+        // 모든 카드에 이벤트 리스너 추가
+        addCardMovement();
+
+        // 모달 창 열기
+        const openModal = (url) => {
+            const modal = document.getElementById("comment-modal");
+            const iframe = document.getElementById("comment-iframe");
+            iframe.src = url;
+            modal.style.display = "block";
+        };
+
+        // 모달 창 닫기
+        const closeModal = () => {
+            const modal = document.getElementById("comment-modal");
+            modal.style.display = "none";
+            location.reload(); // 모달 창 닫을 때 페이지 새로고침
+        };
+
+        // 이벤트 리스너 추가
+        document.querySelectorAll('.comment-body').forEach(comment => {
+            comment.addEventListener('click', (event) => {
+                const cardId = comment.getAttribute('data-card-id');
+                openModal(`/comment?card_id=${cardId}`);
+            });
+        });
+
+        document.querySelector('.close').addEventListener('click', closeModal);
+        window.addEventListener('click', (event) => {
+            const modal = document.getElementById("comment-modal");
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        window.addEventListener("DOMContentLoaded", (event) => {
+            const cards = document.querySelectorAll(".thumb");
+            cards.forEach((e) => { 
+                // 카드 클릭 이벤트 리스너 추가
+                // 카드를 클릭했을 때 data-url 속성에 지정된 URL로 이동
+                e.addEventListener("click", (event) => {
+                    const url = e.getAttribute("data-url");
+                    if (url) {
+                        window.location.href = url;
+                    }
+                });
+            });
+
+            // 새롭게 추가된 코드: .no-comments 요소 클릭 이벤트 리스너
+            const noComments = document.querySelectorAll('.no-comments');
+            noComments.forEach(noComment => {
+                noComment.addEventListener('click', (event) => {
+                    const url = noComment.getAttribute("data-url");
+                    if (url) {
+                        openModal(url);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
