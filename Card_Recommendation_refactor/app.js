@@ -38,7 +38,6 @@ app.use('/profile', profileRouter);
 
 //정적폴더 호출은 라우팅 호출 밑으로! 
 app.use(express.static('./views/public')); 
-
 app.get('/', (req, res) => {
   res.render('cover')
 })

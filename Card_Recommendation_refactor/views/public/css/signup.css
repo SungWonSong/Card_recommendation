@@ -1,0 +1,114 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white;
+    background-color: black;
+    margin: 0;
+}
+fieldset {
+    border: 1px solid #ccc;
+    padding: 30px;
+    width: 600px;
+    height: 450px;
+    background-color: #000000;
+}
+legend {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: white;
+}
+.register {
+    width: 100%;
+}
+label {
+    margin-bottom: 10px;
+    width: 80px;
+    margin-top: -10px;
+}
+.input-container {
+    margin-top: 30px;
+}
+input[type="text"], input[type="id"], input[type="password"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: calc(100% - 150px);
+    box-sizing: border-box;
+    background-color: transparent;
+    color: white;
+}
+.id-container, .nickname-container, .password-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.id-container button, .nickname-container button {
+    padding: 10px;
+    color: white;
+    background-color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100px;
+    box-sizing: border-box;
+    margin-top: -20px; /* 버튼을 더 위로 이동 */
+}
+.register-button {
+    float: right;
+    margin-top: 30px;
+    width: 20%;
+}
+.id-container button:hover, .nickname-container button:hover {
+    background-color: black;
+    text-decoration: underline;
+}
+#nickname, #userid {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: calc(100% - 150px);
+    box-sizing: border-box;
+}
+#password {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: calc(100% - 190px);
+    box-sizing: border-box;
+    margin-left: -7px; /* 비밀번호 글자와 입력창 사이의 간격 조절 */
+}
+#nickname-check-result, #id-check-result {
+    font-size: 0.7em;
+    margin-top: 10px; /* 마진을 줄여 메시지를 입력창에 더 가깝게 */
+    margin-bottom: 20px; /* 메시지와 다음 요소 사이에 마진 추가 */
+    color: white;
+}
+button {
+    padding: 10px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 20%;
+    box-sizing: border-box;
+}
+button:hover {
+    background-color: #3D0402;
+}
+a {
+    display: block;
+    margin-top: 20px;
+    text-align: start;
+    color: white;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}

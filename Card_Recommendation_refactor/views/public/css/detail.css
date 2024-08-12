@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
+* {
+    font-family: 'Varela Round', sans-serif;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #000000;
+    margin: 0; /* 브라우저 기본 여백 제거 */
+}
+.container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column; /* 세로 정렬을 기본으로 설정 */
+}
+.container .card {
+    position: relative;
+    width: 320px; /* 고정된 가로 길이 */
+    height: 450px; /* 고정된 세로 길이 */
+    background: #232323;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 10px; /* 카드 간 간격 추가 */
+}
+.container .card:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #9bdc28;
+    clip-path: circle(350px at 80% 20%);
+    transition: 0.5s ease-in-out;
+}
+.container .card:hover:before {
+    clip-path: circle(300px at 80% -20%);
+}
+.container .card:after {
+    content: 'ATM';
+    position: absolute;
+    top: 30%;
+    left: -20%;
+    font-size: 12em;
+    font-weight: 800;
+    font-style: italic;
+    color: rgba(255, 255, 25, 0.05);
+}
+.container .card .imgBx {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    width: 100%;
+    height: 220px;
+    transition: 0.5s;
+}
+.container .card:hover .imgBx {
+    top: 0%;
+    transform: translateY(0%);
+}
+.container .card .imgBx img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-9deg);
+    width: 80%; /* 반응형으로 설정 */
+}
+.container .card .contentBx {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    transition: 1s;
+    z-index: 10;
+}
+.container .card .contentBx #viewDetail {
+    font-family: 'Varela Round', sans-serif; /* 원하는 폰트 패밀리로 변경 */
+}
+.container .card:hover .contentBx {
+    height: 210px;
+}
+.container .card .contentBx h2 {
+    position: relative;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #2c410c;
+    margin: 0;
+    z-index: 2;
+}
+.container .card .contentBx a {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #fff;
+    border-radius: 4px;
+    margin-top: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    color: #111;
+    opacity: 0;
+    transform: translateY(140px);
+    transition: 0.5s;
+    margin-top: 0;
+}
+.container .card:hover .contentBx a {
+    opacity: 1;
+    transform: translateY(100px);
+    transition-delay: 0.35s;
+}
+
+/* 카드 위로 슬라이드 애니메이션 */
+@keyframes slideUp {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-20vh);
+    }
+}
+.card.slide-up {
+    animation: slideUp 0.7s forwards;
+}
+
+/* 새로운 div 요소 슬라이드 애니메이션 */
+@keyframes slideDown {
+    0% {
+        transform: translateY(-10%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(5vh); /* 여기서 15vh 값을 조절하세요 */
+        opacity: 1;
+    }
+}
+
+/* CSS 수정 */
+#box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px; /* 고정된 가로 길이 */
+    height: auto; /* 높이를 자동으로 설정 */
+    color: white;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 1.3rem;
+    opacity: 0;
+    position: absolute;
+    left: -20%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.5s, transform 0.5s;
+}
+.gradient-border {
+    --borderWidth: 10px;
+    position: absolute;
+    top: calc(100% + 30px); /* 카드 아래 끝 기준으로 30px 밑으로 초기 위치 설정 */
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 500px; /* 고정된 가로 길이 */
+    height: auto; /* 높이를 자동으로 설정 */
+    color: white;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 1.3rem;
+    opacity: 0;
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.gradient-border:after {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--borderWidth));
+    left: calc(-1 * var(--borderWidth));
+    height: calc(100% + var(--borderWidth) * 2);
+    width: calc(100% + var(--borderWidth) * 2);
+    background: linear-gradient(60deg, #000000, #000000, #140000, #270000, #000000, #140000, #000000, #000000);
+    border-radius: calc(2 * var(--borderWidth));
+    z-index: -1;
+    animation: animatedgradient 5s ease alternate infinite;
+    background-size: 300% 300%;
+}
+.container .card .contentBx #backButton {
+    font-family: 'Varela Round', sans-serif; /* 원하는 폰트 패밀리로 변경 */
+    display: inline-block;
+    padding: 10px 20px;
+    background: #fff;
+    border-radius: 4px;
+    margin-top: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    color: #111;
+    opacity: 0;
+    transform: translateY(140px);
+    transition: 0.4s;
+    margin-top: 0;
+}
+.container .card:hover .contentBx #backButton {
+    opacity: 1;
+    transform: translateY(100px);
+    transition-delay: 0.25s;
+}
+
+@keyframes animatedgradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* 미디어 쿼리 추가: 브라우저 창 너비가 1200px 이하일 때 */
+@media (max-width: 1200px) {
+    .container .card {
+        width: 313.6px; /* 320px의 98% */
+        height: 441px; /* 450px의 98% */
+    }
+    .container .card .imgBx img {
+        width: 78.4%; /* 이미지 크기 2% 줄임 */
+    }
+    .gradient-border, #box {
+        font-size: 1.274rem; /* 1.3rem의 98% */
+    }
+}
+
+/* 미디어 쿼리 추가: 브라우저 창 너비가 1000px 이하일 때 */
+@media (max-width: 1000px) {
+    .container .card {
+        width: 310.4px; /* 320px의 97% */
+        height: 436.5px; /* 450px의 97% */
+    }
+    .container .card .imgBx img {
+        width: 77.6%; /* 이미지 크기 3% 줄임 */
+    }
+    .gradient-border, #box {
+        font-size: 1.248rem; /* 1.3rem의 96% */
+    }
+}
+
+/* 미디어 쿼리 추가: 브라우저 창 너비가 800px 이하일 때 */
+@media (max-width: 800px) {
+    .container .card {
+        width: 307.2px; /* 320px의 96% */
+        height: 432px; /* 450px의 96% */
+    }
+    .container .card .imgBx img {
+        width: 76.8%; /* 이미지 크기 4% 줄임 */
+    }
+    .gradient-border, #box {
+        font-size: 1.222rem; /* 1.3rem의 94% */
+    }
+}
