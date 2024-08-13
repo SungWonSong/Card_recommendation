@@ -9,12 +9,11 @@
 </head>
 <body>
     <div class="container">
-        <div class="card">
+        <div class="card" data-card-id="<%= card.card_id %>">
             <div class="imgBx">
                 <img src="<%= card.card_image ? card.card_image : 'default-image-path' %>" alt="<%= card.card_name %>">
             </div>
             <div class="contentBx">
-                <!-- <h2><%= card.card_name %></h2> -->
                 <a href="" id="viewDetail">상세보기</a>
                 <a href="/index" id="backButton" style="display: none;">뒤로가기</a>
             </div>
@@ -76,5 +75,6 @@
         </div>
     </div>
     <script src="/js/detail.js"></script>
+    
 </body>
 </html>

@@ -1,5 +1,4 @@
-
-   document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const viewDetailLink = document.getElementById('viewDetail');
     const backButton = document.getElementById('backButton');
     const card = document.querySelector('.card');
@@ -22,27 +21,24 @@
 
     // 좋아요를 누를 때! 좋아요 수 갱신 or 로그인 유도
     document.getElementById('likeButton').addEventListener('click', () => {
+        const cardId = card.getAttribute('data-card-id'); // HTML에서 cardId 가져오기
+
         fetch('/detail/like', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            // 요청 본문(req.body)에 JSON 형식으로 카드 ID 포함하기 ->
-            body: JSON.stringify({ cardId: '<%= card.card_id %>' })
+            body: JSON.stringify({ cardId: cardId }) // 가져온 cardId 사용
         })
         .then(response => {
-            // 응답코드가 401일 때! -> 서버에서 보낸 코드(토큰 존재 유무 확인해서 토큰이 없을 때 401 보냄)
             if (response.status === 401) {
                 if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
                     window.location.href = '/user/login';
-                    // 여기서 로그인 성공 시 다시 좋아요 화면으로 가기!! (로그인 컨트롤러랑 로그인ejs 수정 필요 )
-                    // window.location.href = `/user/login?redirect=${encodeURIComponent(currentUrl)}`
                 }
             }
             return response.json();
         })
         .then(data => {
-            // 서버(controller/Cdetail.addLike)에서 온 응답 데이터에 likesCount 속성이 있을 때!
             if (data.likesCount !== undefined) {
                 document.getElementById('likesCount').innerText = `${data.likesCount} 좋아요`;
             }
