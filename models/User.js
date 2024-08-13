@@ -35,7 +35,27 @@ module.exports = (sequelize, DataTypes) => {
             throw new Error('이미 존재하는 닉네임입니다.');
         }
     });
-
+    User.associate = (models) => {    
+        // 유저 1 : 댓글 N
+        User.hasMany(models.Comment, {
+            onDelete: 'CASCADE', 
+            onUpdate: 'CASCADE',
+            foreignKey: 'userid',
+            sourceKey: 'id'
+        });
+        // 유저 1 : 카드좋아요 N
+        User.hasMany(models.CardLike, {
+            onDelete: 'CASCADE', 
+            onUpdate: 'CASCADE', 
+            foreignKey: 'user_id' 
+        });
+        // 유저 1 : 댓글좋아요 N
+        User.hasMany(models.CommentLike, {
+            onDelete: 'CASCADE', 
+            onUpdate: 'CASCADE', 
+            foreignKey: 'user_id' 
+        });
+    };
     return User;
     
     // 유저 아이디 & 유저 닉네임 

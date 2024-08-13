@@ -1,13 +1,13 @@
 // 라우팅 분리
-const userRouter = require('../Card_Recommendation_refactor/routes/user');
-const commentRouter = require('../Card_Recommendation_refactor/routes/comment');
-const indexRouter = require('../Card_Recommendation_refactor/routes/index');
-const commendRouter = require('../Card_Recommendation_refactor/routes/commend');
-const detailRouter = require('../Card_Recommendation_refactor/routes/detail');
-const searchRouter = require('../Card_Recommendation_refactor/routes/search');
-const profileRouter = require('../Card_Recommendation_refactor/routes/profile');
+const userRouter = require('../routes/user');
+const commentRouter = require('../routes/comment');
+const indexRouter = require('../routes/index');
+const commendRouter = require('../routes/commend');
+const detailRouter = require('../routes/detail');
+const searchRouter = require('../routes/search');
+const profileRouter = require('../routes/profile');
 
-exports.router=(app)=>{
+exports.router = (app)=>{
   app.use('/user', userRouter);
   app.use('/comment', commentRouter);
   app.use('/', indexRouter);

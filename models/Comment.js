@@ -35,5 +35,23 @@ module.exports = (sequelize, DataTypes) => {
     // 내보낼때 tablename을 안해주면 대소문자 구별이 안됨(필요)
   });
 
+  Comment.associate = (models) => {
+    Comment.belongsTo(models.User, {
+      foreignKey: 'userid',
+      targetKey: 'id'
+    });
+    
+    Comment.belongsTo(models.Card, {
+      foreignKey: 'card_id'
+    });
+    
+    // 댓글 1 : 댓글좋아요 N
+    Comment.hasMany(models.CommentLike, {
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+      foreignKey: 'comment_id'
+    });
+  };
+
   return Comment;
 };

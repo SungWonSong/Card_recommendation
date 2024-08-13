@@ -2,9 +2,9 @@ require('dotenv').config(); // dotenv 패키지를 사용하여 .env 파일 로�
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser'); 
-const { sequelize } = require('../models'); // Sequelize 인스턴스 가져오기
+const { sequelize } = require('./models'); // Sequelize 인스턴스 가져오기
 const port = process.env.PORT || 8080; // 포트를 환경 변수에서 가져오기
-const {router} =require('../middleware/router');
+const {router} =require('./middleware/router');
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
