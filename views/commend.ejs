@@ -16,7 +16,7 @@
                     <div class="card" id="card1">
                         <!-- 카드 이미지 여기서 수정  -->
                         <div class="thumb" data-url="/detail/<%= card.card_id %>" style="background-image: url(https://images.unsplash.com/photo-1478358161113-b0e11994a36b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a11da19e81415e5a81029aade9df7774&auto=format&fit=crop&w=668&q=80)"></div>
-                        <h2><%= card.card_name %></h2>
+                        <h2><%= card.Card.card_name %></h2>
                         <span><%= card[`card_${category}`] %></span>
                     </div>
                     <div class="comments">
@@ -65,5 +65,7 @@
     </div>
 
     <script src="/js/commend.js"></script>
+    <script>
+    </script>
 </body>
 </html>

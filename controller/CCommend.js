@@ -8,11 +8,15 @@ const getTop3Cards = async (category) => {
         where: {
             category_name:category,
         },
+        include: [{
+            model: db.Card,
+            attributes: ['card_id','card_name','card_image'],
+        }],
+        attributes: ['card_id', 'benefit_ranking'],
         // top3 가져오기!
         order: [['benefit_ranking', 'ASC']],
         limit: 3
     });
-    console.log('cards>>>>>>>>>>',cards);
     
     // 각 카드에 대한 상위 2개의 댓글 가져오기
     for (const card of cards) {
@@ -48,11 +52,10 @@ const getTop3Cards = async (category) => {
 const showTop3Cards = async (req, res) => {
     const category = req.query.category;
     try {
-        console.log('1');
         const cards = await getTop3Cards(category);
-        console.log('2');
         res.render('commend', { category, cards });
-        console.log('3');
+        console.log('cards>>>>>>>>>>>>>>>>>>>>>>>>',cards);
+        console.log('cards.Card>>>>>>>>>>', cards[0].Card);
         
         // 여기서 카테고리값이랑 top3카드 정보 프론트에 전달!
     } catch (error) {
