@@ -47,9 +47,9 @@
     <!-- 페이지네이션 컨테이너 -->
     <div class="pagination" id="pagination"></div>
     <script>
-        const currentPage = <%= JSON.stringify(currentPage) %>;
-        const comments = <%- JSON.stringify(comments) %>;
-        const totalPages = <%= JSON.stringify(totalPages) %>;
+        let currentPage = <%= JSON.stringify(currentPage) %>;
+        let comments = <%- JSON.stringify(comments) %>;
+        let totalPages = <%= JSON.stringify(totalPages) %>;
         const user = <%- JSON.stringify(user) %>;
     </script>
     <script src="/js/comment.js"></script>
