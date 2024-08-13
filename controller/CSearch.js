@@ -28,7 +28,8 @@ exports.getCardDetails = async (req, res) => {
         console.log("기타 검색어 조건 적용");
         // }
         const cards = await Card.findAll({
-            where: condition
+            where: condition,
+            attributes: ['card_id','card_name','card_image'],
         });
         console.log(`검색된 카드 수: ${cards.length}`);
         res.render('search', { cards });
