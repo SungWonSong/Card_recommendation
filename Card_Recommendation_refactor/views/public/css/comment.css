@@ -1,0 +1,85 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: black;
+    color: white;
+}
+.comment-form {
+    margin-bottom: 20px;
+    position: relative;
+}
+.comment-form input {
+    width: 80%;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+.char-counter {
+    position: absolute;
+    left: 78%;
+    bottom: 15px;
+    color: gray;
+    font-size: 12px;
+}
+.comment-form button {
+    padding: 10px 20px;
+    border: none;
+    background-color: rgb(174, 35, 27);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.comment-form button:hover {
+    background-color: rgb(200, 50, 50);
+}
+.comment {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+}
+.comment-body {
+    margin: 10px 0;
+}
+.comment-footer {
+    display: flex;
+    align-items: center;
+}
+.likes {
+    margin-right: 10px;
+}
+.comment-action {
+    cursor: pointer;
+    color: rgb(174, 35, 27);
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.pagination button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    background-color: rgb(174, 35, 27);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.pagination button:hover {
+    background-color: rgb(200, 50, 50);
+}
+.pagination button:disabled {
+    background-color: grey;
+    cursor: default;
+}
+    /* 필요 시 top-comment 클래스를 제거하거나 유지할 수 있습니다. */
+.top-comment {
+    /* border: 2px solid gold;
+    background-color: rgba(255, 223, 0, 0.1); */
+    border-radius: 5px;
+}
