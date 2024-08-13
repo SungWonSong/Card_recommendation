@@ -13,12 +13,9 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-// 데이터베이스 동기화
-sequelize.sync();
 
-//정적폴더 호출은 라우팅 호출 밑으로! 
 
-app.use(express.static('./views/public')); 
+app.use(express.static('./public')); 
 
 router(app);
 
@@ -30,7 +27,7 @@ app.get('*', (req, res) => {
 sequelize
   // force : true ; 서버 실행할 때마다 테이블 재생성
   // force : false ; 서버 실행 시 테이블이 없으면 생성
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
     app.listen(port, () => {
       console.log(`${port}에 연결됨`);
