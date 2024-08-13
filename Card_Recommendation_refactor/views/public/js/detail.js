@@ -1,5 +1,4 @@
-
-   document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const viewDetailLink = document.getElementById('viewDetail');
     const backButton = document.getElementById('backButton');
     const card = document.querySelector('.card');
@@ -28,7 +27,7 @@
                 'Content-Type': 'application/json',
             },
             // 요청 본문(req.body)에 JSON 형식으로 카드 ID 포함하기 ->
-            body: JSON.stringify({ cardId: '<%= card.card_id %>' })
+            body: JSON.stringify({ cardId: tempCardId })
         })
         .then(response => {
             // 응답코드가 401일 때! -> 서버에서 보낸 코드(토큰 존재 유무 확인해서 토큰이 없을 때 401 보냄)

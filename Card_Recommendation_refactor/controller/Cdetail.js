@@ -22,6 +22,7 @@ const showCardDetails = async (req, res) => {
                 card, 
                 likesCount,
                 isLoggedIn: !!req.user 
+
                 // 로그인 상태 확인 및 전달 (라우트에서 보낸 미들웨어 authenticateToken으로 확인함!)
                 //authenticateToken는 요청의 헤더에 포함된 JWT(또는 다른 형태의 토큰)를 검증하고, 유효한 경우 사용자 정보를 req.user에 저장함.
                 //req.user = { userId: 1, iat: 1720925636, exp: 1720929236 }
@@ -51,6 +52,7 @@ const toggleLike = async (req, res) => {
     // req.user가 존재하는 경우, 사용자가 로그인한 상태로 간주하고,(if문)
     // 요청 본문에서 cardId를 가져옴. 
     const { cardId } = req.body;
+
     //req.user.userId를 사용하여 좋아요 추가
     //req.user에서 userId 값만 가져오는거임! 
     const userId = req.user.userId; 
@@ -81,7 +83,7 @@ const toggleLike = async (req, res) => {
         const likesCount = await db.CardLike.count({ 
             where: { card_id: cardId },
             transaction 
-         });
+        });
          // 모든 작업이 성공적으로 완료되면 트랜잭션 커밋함 -> 
          // 데이터베이스에서 트랜잭션 내의 모든 작업이 성공적으로 완료되었음을 선언, 
          // 트랜잭션 내에서 수행된 모든 데이터베이스 변경 사항을 영구적으로 저장함! 
