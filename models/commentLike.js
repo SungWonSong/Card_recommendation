@@ -35,6 +35,15 @@ module.exports = (sequelize, DataTypes) => {
         freezeTableName: true,
         timestamps: false,
     });
-
+    CommentLike.associate = (models) => {
+        CommentLike.belongsTo(models.User, { 
+            foreignKey: 'user_id' 
+        });
+        
+        CommentLike.belongsTo(models.Comment, {
+            foreignKey: 'comment_id'
+        });
+      };
+    
     return CommentLike;
 };

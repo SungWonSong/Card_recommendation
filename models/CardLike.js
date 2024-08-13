@@ -26,7 +26,20 @@ module.exports = (sequelize, DataTypes) => {
         tablename: 'CardLike',
         freezeTableName: true,
         timestamps: false,
-    });
-
+    });  
+    CardLike.associate = (models) => {
+        CardLike.belongsTo(models.User, { 
+            foreignKey: 'user_id' 
+          });
+          
+          CardLike.belongsTo(models.Card, { 
+            foreignKey: 'card_id' 
+          });
+          CardLike.belongsTo(models.Card, { 
+            foreignKey: 'card_id' 
+          });            
+    };
+  
+      
     return CardLike;
 };

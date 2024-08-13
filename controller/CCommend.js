@@ -1,19 +1,19 @@
 const db = require('../models');
 // 모델에서 혜택 top3 조회 함수
 const getTop3Cards = async (category) => {
+    console.log('getTop3Cards 실행');
+    
     // 카테고리 이름 + '_ranking' > 카드모델에서 지정된 랭킹 관련 컬럼명 규칙!
-    const rankingColumn = `${category}_ranking`;
-    const cards = await db.Card.findAll({
+    const cards = await db.Benefit.findAll({
         where: {
-            [rankingColumn]: {
-                // 랭킹컬럼이 null이 아닌 카드 필터링해서 가져옴
-                [db.Sequelize.Op.not]: null
-            }
+            category_name:category,
         },
         // top3 가져오기!
-        order: [[rankingColumn, 'ASC']],
+        order: [['benefit_ranking', 'ASC']],
         limit: 3
     });
+    console.log('cards>>>>>>>>>>',cards);
+    
     // 각 카드에 대한 상위 2개의 댓글 가져오기
     for (const card of cards) {
         const comments = await db.Comment.findAll({
@@ -48,8 +48,12 @@ const getTop3Cards = async (category) => {
 const showTop3Cards = async (req, res) => {
     const category = req.query.category;
     try {
+        console.log('1');
         const cards = await getTop3Cards(category);
+        console.log('2');
         res.render('commend', { category, cards });
+        console.log('3');
+        
         // 여기서 카테고리값이랑 top3카드 정보 프론트에 전달!
     } catch (error) {
         console.error('Error fetching cards:', error);
