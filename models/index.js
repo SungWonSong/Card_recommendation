@@ -10,11 +10,11 @@ const sequelize = new Sequelize(
 );
 
 // 모델 불러오기
-const User = require('./User')(sequelize, Sequelize); 
-const Comment = require('./Comment')(sequelize, Sequelize); 
-const Card = require('./Card')(sequelize, Sequelize); 
-const CardLike = require('./CardLike')(sequelize, Sequelize); 
-const CommentLike = require('./commentLike')(sequelize, Sequelize); 
+const User = require('./User.js')(sequelize, Sequelize); 
+const Comment = require('./Comment.js')(sequelize, Sequelize); 
+const Card = require('./Card.js')(sequelize, Sequelize); 
+const CardLike = require('./CardLike.js')(sequelize, Sequelize); 
+const CommentLike = require('./commentLike.js')(sequelize, Sequelize); 
 
 // 모델간 관계 연결 
 
