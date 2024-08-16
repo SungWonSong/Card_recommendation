@@ -35,42 +35,18 @@
                 </div>
                 <!-- 혜택 정보 -->
                 <div class="benefits_container">
-                    <% if (card.traffic_ox) { %>
-                    <div class="benefit">
-                        <h3> 교통 혜택 </h3>
-                        <p><%= card.traffic_details %></p>
-                    </div>
-                    <% } %>
-                    <% if (card.store_ox) { %>
-                    <div class="benefit">
-                        <h3>편의점 혜택 </h3>
-                        <p><%= card.store_details %></p>
-                    </div>
-                    <% } %>
-                    <% if (card.cafe_ox) { %>
-                    <div class="benefit">
-                        <h3>카페 혜택 </h3>
-                        <p><%= card.cafe_details %></p>
-                    </div>
-                    <% } %>
-                    <% if (card.sub_ox) { %>
-                    <div class="benefit">
-                        <h3>구독 혜택</h3>
-                        <p><%= card.sub_details %></p>
-                    </div>
-                    <% } %>
-                    <% if (card.book_ox) { %>
-                    <div class="benefit">
+                    <!-- <div class="benefit">
                         <h3>서점 혜택</h3>
                         <p><%= card.book_details %></p>
+                    </div> -->
+                    <div class="benefits_container">
+                        <% card.Benefits.forEach(benefit => { %>
+                            <div class="benefit">
+                                <h3><%= benefit.dataValues.category_name %> 혜택</h3>
+                                <p><%= benefit.dataValues.benefit_details %></p>
+                            </div>
+                        <% }); %>
                     </div>
-                    <% } %>
-                    <% if (card.performance_ox) { %>
-                    <div class="benefit">
-                        <h3>필요 실적 </h3>
-                        <p><%= card.performance_details %></p>
-                    </div>
-                    <% } %>
                 </div>
             </div>
         </div>

@@ -4,9 +4,23 @@ const { sequelize } = require('../models');
 // 카드정보 및 좋아요 수 조회 함수 
 const getCardDetails = async (cardId) => {
     // 카드 조회
-    const card = await db.Card.findByPk(cardId);
+    const card = await db.Card.findOne({
+        where:{card_id : cardId},
+        include:[{
+            model : db.Benefit,
+            attributes:['category_name','benefit_details'],
+        }],
+        attributes:['card_image','card_name','card_corp','card_id']
+    });
+    console.log('card >>>>',card);
+    console.log('card.Benefit >>>>',card.Benefits);
+    
+    
     // 해당 카드의 좋아요 수 조회
     const likesCount = await db.CardLike.count({ where: { card_id: cardId } }) || 0;
+    
+    console.log('likesCOunt >>>>',likesCount);
+    
     return { card, likesCount };
 };
 
