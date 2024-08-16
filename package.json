@@ -19,6 +19,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
     "mysql2": "^3.10.3",
+    "natural": "^8.0.1",
     "sequelize": "^6.37.3"
   }
 }
