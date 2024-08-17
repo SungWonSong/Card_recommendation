@@ -2,7 +2,7 @@ let isNicknameChecked = false;
 let isIdChecked = false;
 
 const nicknameInput = document.getElementById('nickname');
-const userIdInput = document.getElementById('userid');
+const userIdInput = document.getElementById('userId');
 const passwordInput = document.getElementById('password');
 const registerButton = document.querySelector('.register-button');
 
@@ -11,31 +11,32 @@ function validatePassword(password) {
     return passwordRegex.test(password);
 }
 
-function checkDuplicate(type) {
-    const value = type === 'nickname' ? nicknameInput.value : userIdInput.value;
-    const url = `/user/check-${type === 'nickname' ? 'nickname' : 'id'}`;
-    const checkResult = document.getElementById(`${type === 'nickname' ? 'nickname-check-result' : 'id-check-result'}`);
+// 프론트에서의 중복검사(inputType -> nickname, userid)
+function checkDuplicate(inputType) {
+    const value = inputType === 'nickname' ? nicknameInput.value : userIdInput.value;
+    const url = `/user/check-${inputType === 'nickname' ? 'nickname' : 'userId'}`;
+    const checkResult = document.getElementById(`${inputType === 'nickname' ? 'nickname-check-result' : 'id-check-result'}`);
 
     console.log(`Sending request to ${url} with value: ${value}`); // 요청이 보내지는지 확인하는 로그
-    console.log(`checkResult for ${type}:`, checkResult); // 요소가 제대로 선택되었는지 확인하는 로그
+    console.log(`checkResult for ${inputType}:`, checkResult); // 요소가 제대로 선택되었는지 확인하는 로그
 
     if (!checkResult) {
-        console.error(`Element with id ${type}-check-result not found.`);
+        console.error(`Element with id ${inputType}-check-result not found.`);
         return;
     }
 
-    axios.post(url, { [type]: value })
+    axios.post(url, { [inputType]: value })
         .then(response => {
             console.log('Response:', response.data); // 응답 데이터 로그
             checkResult.textContent = response.data.message;
             checkResult.style.color = response.data.available ? 'skyblue' : 'red';
 
-            if (type === 'nickname') {
+            if (inputType === 'nickname') {
                 isNicknameChecked = response.data.available;
                 if (isNicknameChecked) {
                     enableIdInput();
                 }
-            } else if (type === 'userid') {
+            } else if (inputType === 'userId') {
                 isIdChecked = response.data.available;
                 if (isIdChecked) {
                     enablePasswordInput();
@@ -47,8 +48,8 @@ function checkDuplicate(type) {
             checkResult.textContent = '오류가 발생했습니다.';
             checkResult.style.color = 'red';
 
-            if (type === 'nickname') isNicknameChecked = false;
-            if (type === 'userid') isIdChecked = false;
+            if (inputType === 'nickname') isNicknameChecked = false;
+            if (inputType === 'userId') isIdChecked = false;
         });
 }
 
@@ -81,7 +82,7 @@ function register(event) {
         return;
     }
 
-    axios.post('/user/signup', { userid: userId, password: password, nickname: nickname })
+    axios.post('/user/signup', { userId: userId, password: password, nickname: nickname })
         .then(res => {
             console.log(res);
             editCancel();

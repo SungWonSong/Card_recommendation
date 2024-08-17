@@ -1,7 +1,6 @@
 const { User } = require('../models');
 const { hashPassword, comparePassword } = require('../utils/encrypt');
 const jwt = require('jsonwebtoken');
-const { checkLoginStatus } = require('../middleware/token'); // 변경된 부분: checkLoginStatus를 middleware에서 가져옴
 require('dotenv').config();
 
 exports.signUp = (req, res) => {
@@ -11,10 +10,12 @@ exports.signUp = (req, res) => {
 exports.logIn = (req, res) => {
     res.render('login');
 };
+// request가 없어도 미래에 페이지 렌더링 확장에서 필요하게 될 때 사용가능성 존재
+// request사용을 통한 코드의 직관적인 모습 유지 가능
 
 exports.postsignUp = async (req, res) => {
     try {
-        const { userid, nickname, password } = req.body;
+        const { userId, nickname, password } = req.body;
         const validatePassword = (password) => {
             const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/; // 최소 6자 이상, 영문자, 숫자, 특수문자
             return passwordRegex.test(password);
@@ -23,8 +24,9 @@ exports.postsignUp = async (req, res) => {
             return res.status(400).send({ message: "password error" });
         }
         const hashedPassword = await hashPassword(password);
-        const newUser = await User.create({ userid, nickname, password: hashedPassword });
-        res.send({ id: newUser.id, userid, nickname });
+        const newUser = await User.create({userId, nickname, password: hashedPassword });
+        
+        res.send({ id: newUser.id, userId: newUser.userId, nickname: newUser.nickname });
     } catch (error) {
         console.error('Error in postsignUp:', error);
         res.status(500).send({ message: error.message });
@@ -33,12 +35,13 @@ exports.postsignUp = async (req, res) => {
 
 exports.postlogIn = async (req, res) => {
     try {
-        const { userid, password } = req.body;
-        const user = await User.findOne({ where: { userid } });
+        const { userId, password } = req.body;
+        const user = await User.findOne({ where: { userId } });
         if (!user) {
             return res.status(400).send({ message: '존재하지 않는 아이디입니다.' });
         }
         const match = await comparePassword(password, user.password);
+        // match 라는 변수에 패스워드 일치 여부 판단하는 comparePassword를 사용해서 같으면 true, 아니면 false 출력
         if (!match) {
             return res.status(400).send({ message: '비밀번호가 잘못 되었습니다. 비밀번호를 정확히 입력해 주세요.' });
         }
@@ -65,32 +68,8 @@ exports.logout = (req, res) => {
         res.status(500).send({ message: '로그아웃 중 오류가 발생했습니다.' });
     }
 };
+// userid -> userId로 다 탈바꿈
 
-// 변경 전 로그인 확인 함수 - 단순히 쿠키에 토큰이 있는지 여부만 확인함
-// // 로그인 상태 확인 함수 
-// exports.checkLoginStatus = (req, res) => {
-//     if (req.cookies.token) {
-//         res.json({ isLoggedIn: true });
-//     } else {
-//         res.json({ isLoggedIn: false });
-//     }
-// };
-
-// 로그인 상태 확인 함수 - middleware/token.js로 이동
-// exports.checkLoginStatus = (req, res) => {
-//     const token = req.cookies.token;
-//     if (token) {
-//         jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-//             if (err) {
-//                 return res.json({ isLoggedIn: false });
-//             } else {
-//                 return res.json({ isLoggedIn: true });
-//             }
-//         });
-//     } else {
-//         return res.json({ isLoggedIn: false });
-//     }
-// };
 
 // 닉네임 중복 확인 함수
 exports.checkDuplicateNickname = async (req, res) => {
@@ -110,8 +89,8 @@ exports.checkDuplicateNickname = async (req, res) => {
 // 아이디 중복 확인 함수
 exports.checkDuplicateId = async (req, res) => {
     try {
-        const { userid } = req.body;
-        const user = await User.findOne({ where: { userid } });
+        const { userId } = req.body;
+        const user = await User.findOne({ where: { userId } });
         if (user) {
             return res.send({ message: '이미 사용 중인 아이디입니다.', available: false });
         }
@@ -121,6 +100,3 @@ exports.checkDuplicateId = async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 };
-
-// 로그인 상태 확인 함수 (middleware/token.js에서 가져옴)
-exports.checkLoginStatus = checkLoginStatus; // 변경된 부분
