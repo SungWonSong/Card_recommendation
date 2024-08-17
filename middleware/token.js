@@ -21,25 +21,16 @@ const authenticateToken = (req, res, next) => {
 
     req.user = decodedToken; 
     res.locals.isLoggedIn = true; // 로그인 상태 true로 설정
-    next(); // 다음 미들웨어로 넘어갑니다.
+    next();
   });
 };
 
 const checkLoginStatus = (req, res) => {
-  const token = req.cookies.token;
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-      if (err) {
-        return res.json({ isLoggedIn: false });
-      } else {
-        return res.json({ isLoggedIn: true });
-      }
-    });
-  } else {
-    return res.json({ isLoggedIn: false });
-  }
+  res.json({ isLoggedIn: res.locals.isLoggedIn, user: req.user });
 };
 
 module.exports = {
-  authenticateToken
+  authenticateToken,
+  checkLoginStatus
+
 };

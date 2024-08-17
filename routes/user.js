@@ -1,6 +1,6 @@
 const express = require('express');
 const controller = require('../controller/Cuser');
-const {authenticateToken} = require('../middleware/token');
+const {authenticateToken, checkLoginStatus} = require('../middleware/token');
 const router = express.Router();
 
 router.get('/signup', controller.signUp);
@@ -8,7 +8,7 @@ router.post('/signup', controller.postsignUp);
 router.get('/login', controller.logIn);
 router.post('/login', controller.postlogIn);
 router.post('/logout', controller.logout);
-router.get('/checkLoginStatus', authenticateToken);  // 변경된 부분
+router.get('/authenticateToken', authenticateToken, checkLoginStatus);
 
 // 닉네임, 아이디 중복검사를 모델에서 실시하고 있지만, 
 // 실시간으로 중복검사를 프론트엔드에서 수행하려면 라우트 필요 
