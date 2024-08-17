@@ -10,7 +10,7 @@
   <!-- 로그인 버튼과 관련된 섹션 제거 -->
   <script>
       function checkLoginStatus() {
-          fetch('/user/checkLoginStatus')
+          fetch('/user/authenticateToken')
               .then(response => response.json())
               .then(data => {
                   // 로그인 상태 확인 로직 제거
