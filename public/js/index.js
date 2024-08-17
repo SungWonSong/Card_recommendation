@@ -68,7 +68,7 @@
             // 페이지 이동 코드 추가
             if (!item.clicked) {
                 const category = item.getAttribute('data-category');
-                window.location.href = `/commend?category=${category}`;
+                window.location.href = `/search/category?category=${category}`;
             }
         });
     });
@@ -80,7 +80,7 @@
     searchButton.addEventListener('click', () => {
         const query = searchInput.value;
         if (query) {
-            window.location.href = `/search?query=${encodeURIComponent(query)}`;
+            window.location.href = `/search/search?query=${encodeURIComponent(query)}`;
         }
     });
 

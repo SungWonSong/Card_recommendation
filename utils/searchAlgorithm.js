@@ -98,7 +98,7 @@ class SearchAlgorithm {
    * 각 토큰에 대해 문서 ID와 빈도수를 인덱스에 저장
    * calculateIDF()를 호출하여 IDF 값을 계산
    */
-    buildIndex() {
+  buildIndex() {
     this.entireDocDataSet.forEach(doc => {
       const tokens = this.tokenize(doc.details);
       tokens.forEach(token => {
@@ -150,16 +150,17 @@ class SearchAlgorithm {
     this.entireDocDataSet.forEach(doc => {
       let score = 0;
       queryTokens.forEach(token => {
-        if (this.index[token] && this.index[token][doc.id]) {
-          const tf = this.index[token][doc.id];
-          const idf = this.idf[token];
-          score += tf * idf;
-        }
+        Object.keys(this.index).forEach(indexToken => {
+          if (indexToken.includes(token) && this.index[indexToken][doc.id]) {
+            const tf = this.index[indexToken][doc.id];
+            const idf = this.idf[indexToken];
+            score += tf * idf;
+          }
+        });
       });
       if (score > 0) {
-        // cardId를 키로 사용하여 점수를 저장
         if (!result[doc.cardId] || result[doc.cardId].score < score) {
-          result[doc.cardId] = { id: doc.id, score, detail: doc.detail };
+          result[doc.cardId] = { id: doc.id, score, detail: doc.details };
         }
       }
     });
