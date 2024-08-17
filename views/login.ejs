@@ -10,16 +10,16 @@
 <body>
 
   <form name="form_info" action="/profile" method="POST">
-    <input type="hidden" name="userid" />
+    <input type="hidden" name="userId" />
   </form>
   <fieldset>
     <legend>Login</legend>
     <form name="form_login">
       <div class="label-wrapper">
-        <label for="userid">ID</label>
+        <label for="userId">ID</label>
         <div class="input-wrapper">
           <img class="icon" src="/image/user_id_아이콘.png" alt="id icon">
-          <input id="userid" type="id" name="userid" required />
+          <input id="userId" type="id" name="userId" required />
         </div>
       </div>
       <div class="label-wrapper">
@@ -29,7 +29,7 @@
           <input id="password" type="password" name="password" required />
         </div>
       </div>
-      <button type="button" onclick="login();">Login</button>
+      <button type="button" onclick="login()">Login</button>
     </form>
 
     <a href="/user/signup">회원가입</a>

@@ -16,14 +16,14 @@ fetch('/user/checkLoginStatus')
 // [Login] 버튼 클릭시 서버에 로그인 요청하기
 function login() {
     const form = document.forms['form_login'];
-    const userid = form.userid.value;
+    const userId = form.userId.value;
     const password = form.password.value;
 
     axios({
         method: 'POST',
         url: '/user/login',
         data: {
-            userid: userid,
+            userId: userId,
             password: password
         }
     }).then((res) => {

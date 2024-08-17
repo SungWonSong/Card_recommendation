@@ -14,7 +14,7 @@ const User = require('./User.js')(sequelize, Sequelize);
 const Comment = require('./Comment.js')(sequelize, Sequelize); 
 const Card = require('./Card.js')(sequelize, Sequelize); 
 const CardLike = require('./CardLike.js')(sequelize, Sequelize); 
-const CommentLike = require('./commentLike.js')(sequelize, Sequelize); 
+const CommentLike = require('./CommentLike.js')(sequelize, Sequelize); 
 const Benefit = require('./Benefit.js')(sequelize, Sequelize);
 
 db.sequelize = sequelize;
