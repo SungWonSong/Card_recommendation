@@ -6,54 +6,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card Detail</title>
     <link rel="stylesheet" href="/css/detail.css">
+    <link rel="stylesheet" href="/css/comment.css">
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="imgBx">
-                <img src="<%= card.card_image ? card.card_image : 'default-image-path' %>" alt="<%= card.card_name %>">
-            </div>
-            <div class="contentBx">
-                <!-- <h2><%= card.card_name %></h2> -->
-                <a href="" id="viewDetail">상세보기</a>
-                <a href="/index" id="backButton" style="display: none;">뒤로가기</a>
-            </div>
-        </div>
-        <!-- 새로운 div 요소, 처음에는 숨김 -->
-        <div class="gradient-border" id="box" style="display: none;">
-            <div class="content-container">
-                <h1>카드별 상세 내용</h1>
-                <!-- 카드 정보 -->
-                <div class="card_info">
-                    <div> 카드이름 :  <%= card.card_name %></div>
-                    <div> 카드회사 : <%= card.card_corp %></div>
+    <div class="left-box">
+        <div class="container">
+            <div class="card">
+                <div class="imgBx">
+                    <img src="<%= card.card_image ? card.card_image : 'default-image-path' %>" alt="<%= card.card_name %>">
                 </div>
-                <!-- 좋아요 기능  -->
-                <div class="likes_container">
-                    <button id="likeButton">👍</button>
-                    <span id="likesCount"><%= likesCount %> 좋아요 </span>
+                <div class="contentBx">
+                    <!-- <h2><%= card.card_name %></h2> -->
+                    <a href="" id="viewDetail">상세보기</a>
+                    <a href="/index" id="backButton" style="display: none;">뒤로가기</a>
                 </div>
-                <!-- 혜택 정보 -->
-                <div class="benefits_container">
-                    <!-- <div class="benefit">
-                        <h3>서점 혜택</h3>
-                        <p><%= card.book_details %></p>
-                    </div> -->
+            </div>
+            <!-- 새로운 div 요소, 처음에는 숨김 -->
+            <div class="gradient-border" id="box" style="display: none;">
+                <div class="content-container">
+                    <h1>카드별 상세 내용</h1>
+                    <!-- 카드 정보 -->
+                    <div class="card_info">
+                        <div> 카드이름 :  <%= card.card_name %></div>
+                        <div> 카드회사 : <%= card.card_corp %></div>
+                    </div>
+                    <!-- 좋아요 기능  -->
+                    <div class="likes_container">
+                        <button id="likeButton">👍</button>
+                        <span id="likesCount"><%= likesCount %> 좋아요 </span>
+                    </div>
+                    <!-- 혜택 정보 -->
                     <div class="benefits_container">
-                        <% card.Benefits.forEach(benefit => { %>
-                            <div class="benefit">
-                                <h3><%= benefit.dataValues.category_name %> 혜택</h3>
-                                <p><%= benefit.dataValues.benefit_details %></p>
-                            </div>
-                        <% }); %>
+                        <!-- <div class="benefit">
+                            <h3>서점 혜택</h3>
+                            <p><%= card.book_details %></p>
+                        </div> -->
+                        <div class="benefits_container">
+                            <% card.Benefits.forEach(benefit => { %>
+                                <div class="benefit">
+                                    <h3><%= benefit.dataValues.category_name %> 혜택</h3>
+                                    <p><%= benefit.dataValues.benefit_details %></p>
+                                </div>
+                            <% }); %>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="right-box">
+        <div class="comments-container">        
+            <div class="comment-form">
+                <input type="text" id="comment-input" placeholder="댓글을 입력하세요">
+                <span class="char-counter" id="char-counter">0</span>
+                <button id="add-comment" data-card-id="<%= card.card_id %>">추가</button>
+            </div>
+            <div class="comment-contents">
+                <div id="comments-container">
+                    <!-- 댓글 목록이 여기에 추가됩니다 -->
+                    <% if (comments.length === 0) { %>
+                        <div class="no-comments">아직 입력된 댓글이 없습니다.</div>
+                    <% } else { %>
+                        <% comments.forEach((comment, index) => { %>
+                            <% const isTopComment = index < 2; %> <!-- 상위 2개의 댓글을 식별 -->
+                            <div class="comment <%= isTopComment ? 'top-comment' : '' %>" data-id="<%= comment.comment_id %>">
+                                <div class="comment-header">
+                                    <div class="comment-author"><%= comment.User.nickname %></div>
+                                    <div class="comment-options"><%= new Date(comment.createdAt).toLocaleDateString() %></div>
+                                </div>
+                                <div class="comment-body">
+                                    <%= comment.comment_contents %>
+                                </div>
+                                <div class="comment-footer">
+                                    <span class="likes"><%= comment.likeCount %></span> <!-- 좋아요 수를 나타내는 부분 -->
+                                    <span class="comments">0</span> <!-- 댓글 수를 나타내는 부분 -->
+                                    <span class="comment-action" data-comment-id="<%= comment.comment_id %>" data-card-id="<%= comment.card_id %>">좋아요</span> <!-- 좋아요 버튼에 card_id 추가 -->
+                                    <% if (user && user.userId === comment.userid) { %>
+                                        <button class="edit-comment">수정</button>
+                                        <button class="delete-comment">삭제</button>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } %>
+                </div>    
+            </div>
+            <!-- 페이지네이션 컨테이너 -->
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
     <script>
         const tempCardId = <%= card.card_id %>;
+        let currentPage = <%= JSON.stringify(currentPage) %>;
+        let comments = <%- JSON.stringify(comments) %>;
+        let totalPages = <%= JSON.stringify(totalPages) %>;
+        const user = <%- JSON.stringify(user) %>;
     </script>
     <script src="/js/detail.js"></script>
+    <script src="/js/comment.js"></script>
 </body>
 </html>
