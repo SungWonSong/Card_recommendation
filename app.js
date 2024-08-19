@@ -18,7 +18,7 @@ router(app);
 
 // 404 에러 처리
 app.get('*', (req, res) => {
-  res.render('404');
+  res.render('404',{msg : '알 수 없는 접근입니다.'});
 });
 
 sequelize

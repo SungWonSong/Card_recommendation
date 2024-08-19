@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 좋아요를 누를 때! 좋아요 수 갱신 or 로그인 유도
     document.getElementById('likeButton').addEventListener('click', () => {
-        fetch('/detail/like', {
+        fetch('/detail/likeCard', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
