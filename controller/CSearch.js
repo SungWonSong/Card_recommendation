@@ -47,6 +47,9 @@ exports.getCardDetails = async (req, res) => {
         card_name: card.card_name,
         card_image: card.card_image,
       })));
+    }    
+    if (cardDetails.length === 0) {
+      return res.render('404',{msg : '검색 결과가 없습니다.'})
     }
     // console.log('cardDetails >>>>> ', cardDetails);
     

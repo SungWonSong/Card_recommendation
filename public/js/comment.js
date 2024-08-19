@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         if (text) {
-            fetch('/comment', {
+            fetch('/detail', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         try {
-            const response = await fetch('/comment/like', {
+            const response = await fetch('/detail/likeComment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const commentBody = comment.querySelector('.comment-body');
         const newText = prompt('댓글을 수정하세요:', commentBody.textContent);
         if (newText) {
-            fetch(`/comment/edit/${comment.dataset.id}`, {
+            fetch(`/detail/edit/${comment.dataset.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const deleteComment = (comment) => {
         if (confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
-            fetch(`/comment/delete/${comment.dataset.id}`, {
+            fetch(`/detail/delete/${comment.dataset.id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${user.token}`
