@@ -1,5 +1,6 @@
 const db = require('../models');
 const { sequelize } = require('../models'); 
+const {getComments} = require('./CComment');
 
 // 카드정보 및 좋아요 수 조회 함수 
 const getCardDetails = async (cardId) => {
@@ -12,14 +13,14 @@ const getCardDetails = async (cardId) => {
         }],
         attributes:['card_image','card_name','card_corp','card_id']
     });
-    console.log('card >>>>',card);
-    console.log('card.Benefit >>>>',card.Benefits);
+    // console.log('card >>>>',card);
+    // console.log('card.Benefit >>>>',card.Benefits);
     
     
     // 해당 카드의 좋아요 수 조회
     const likesCount = await db.CardLike.count({ where: { card_id: cardId } }) || 0;
     
-    console.log('likesCOunt >>>>',likesCount);
+    // console.log('likesCOunt >>>>',likesCount);
     
     return { card, likesCount };
 };
@@ -28,14 +29,27 @@ const getCardDetails = async (cardId) => {
 const showCardDetails = async (req, res) => {
     // url 경로매개변수(라우트에서 설정됨!)에서 카드ID가져오기 
     const cardId = req.params.cardId;
+
+
+
     try {
+        page =1 , limit = 5
+
+        const { comments, totalPages, currentPage } = await getComments(cardId, page);
         const { card, likesCount } = await getCardDetails(cardId);
+
+        // console.log('comment >>>>>>>>>>>>>>',comments);
+        
         // 조회된 카드가 존재한다면! 
         if (card) {
-            res.render('detail', { 
+            res.render('detail', {
+                comments,
                 card, 
                 likesCount,
-                isLoggedIn: !!req.user 
+                isLoggedIn: !!req.user,
+                totalPages,
+                currentPage: page,
+                user: req.user,
 
                 // 로그인 상태 확인 및 전달 (라우트에서 보낸 미들웨어 authenticateToken으로 확인함!)
                 //authenticateToken는 요청의 헤더에 포함된 JWT(또는 다른 형태의 토큰)를 검증하고, 유효한 경우 사용자 정보를 req.user에 저장함.

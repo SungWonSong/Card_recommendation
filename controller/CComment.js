@@ -103,7 +103,7 @@ const getComments = async (cardId, page = 1, limit = 5) => {
 };
 
 // 댓글 보여주기
-exports.showComments = async (req, res) => {
+const showComments = async (req, res) => {
   const cardId = req.query.card_id;
   const page = parseInt(req.query.page) || 1;
 
@@ -133,7 +133,7 @@ exports.showComments = async (req, res) => {
 };
 
 // 댓글 추가
-exports.addComment = async (req, res) => {
+const addComment = async (req, res) => {
   if (!req.user) {
     return res.status(401).json({ message: '현재 로그인된 유저 없음' });
   }
@@ -171,7 +171,7 @@ exports.addComment = async (req, res) => {
 };
 
 // 댓글 수정
-exports.editComment = async (req, res) => {
+const editComment = async (req, res) => {
   if (!req.user) {
     return res.status(401).json({ message: '현재 로그인된 유저 없음' });
   }
@@ -190,7 +190,7 @@ exports.editComment = async (req, res) => {
 };
 
 // 댓글 삭제
-exports.deleteComment = async (req, res) => {
+const deleteComment = async (req, res) => {
   if (!req.user) {
     return res.status(401).json({ message: '현재 로그인된 유저 없음' });
   }
@@ -207,7 +207,7 @@ exports.deleteComment = async (req, res) => {
 };
 
 // 좋아요 토글
-exports.toggleLike = async (req, res) => {
+const toggleLike = async (req, res) => {
   if (!req.user) {
     return res.status(401).json({ message: '로그인이 필요합니다. ' });
   }
@@ -244,3 +244,15 @@ exports.toggleLike = async (req, res) => {
     return res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
+module.exports={
+  countTotalComments,
+  fetchTopComments,
+  fetchComments,
+  getComments,
+  showComments,
+  addComment,
+  editComment,
+  deleteComment,
+  toggleLike
+}
