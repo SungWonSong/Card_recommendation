@@ -6,7 +6,8 @@ const authenticateToken = (req, res, next) => {
   // 토큰이 없는 경우
   if (token === undefined) {
     req.user = null; // 사용자 정보 없음
-    return res.json({ isLoggedIn: false }); // 로그인 상태 false 반환
+    res.locals.isLoggedIn = false;
+    return next(); // 로그인 상태 false 반환
   }
 
   // 토큰 검증
@@ -21,7 +22,7 @@ const authenticateToken = (req, res, next) => {
 
     req.user = decodedToken; 
     res.locals.isLoggedIn = true; // 로그인 상태 true로 설정
-    next();
+    return next();
   });
 };
 
