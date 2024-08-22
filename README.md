@@ -15,7 +15,7 @@
 
 | [송성원](https://github.com/SungWonSong) | [양태완](https://github.com/behindy3359) |
 |:---:| :---: |
-| <img alt="스크린샷 2024-08-23 오전 2 48 59" src="https://github.com/user-attachments/assets/560d86a2-4a65-487c-b0a7-7442f4368c14" width="150" height="200"> | <img alt="스크린샷 2024-08-23 오전 2 45 33" src="https://github.com/user-attachments/assets/e8180eb8-362f-4cf6-b009-6af6ef5c26f1" width="150" height="200">
+| <img alt="스크린샷 2024-08-23 오전 2 48 59" src="https://github.com/user-attachments/assets/560d86a2-4a65-487c-b0a7-7442f4368c14" width="300" height="400"> | <img alt="스크린샷 2024-08-23 오전 3 16 04" src="https://github.com/user-attachments/assets/91e31653-fb15-45d1-bec5-77bc319b0998" width="300" height="400">
 |팀원|팀원|
 
 기술 스택 💻
