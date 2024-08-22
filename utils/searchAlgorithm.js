@@ -1,9 +1,5 @@
-const natural = require('natural');
-const { Benefit, Card } = require('../models');
+const { Benefit } = require('../models');
 
-const tokenizer = new natural.WordTokenizer();
-const stemmer = natural.PorterStemmer;
-const stopwords = new Set(natural.stopwords);
 
 /**
  * TF-IDF : 문서 내에서 특정 단어의 중요도를 나타내는 통계적 수치
