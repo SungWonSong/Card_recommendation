@@ -16,7 +16,7 @@ const fetchTopComments = async (cardId, limit = 2) => {
             where: { card_id: cardId },
             include: [{
                 model: User,
-                attributes: ['userid', 'nickname'],
+                attributes: ['userId', 'nickname'],
             }],
             attributes: {
                 include: [
@@ -53,7 +53,7 @@ const fetchComments = async (cardId, limit, offset, excludeIds = []) => {
             },
             include: [{
                 model: User,
-                attributes: ['userid', 'nickname'],
+                attributes: ['userId', 'nickname'],
             }],
             attributes: {
                 include: [
@@ -261,7 +261,7 @@ exports.addComment = async (req, res) => {
     const { comment_contents, card_id } = req.body;
     const newComment = {
         comment_contents,
-        userid: req.user.userId,
+        userId: req.user.userId,
         card_id,
         createdAt: new Date(), // 명시적으로 createdAt 값을 설정하여 일관성 유지
     };
@@ -300,7 +300,7 @@ exports.editComment = async (req, res) => {
     const { comment_contents } = req.body;
     const comment = await Comment.findByPk(id);
 
-    if (comment.userid !== req.user.userId) {
+    if (comment.userId !== req.user.userId) {
         return res.status(403).json({ message: 'Forbidden' });
     }
 
@@ -318,7 +318,7 @@ exports.deleteComment = async (req, res) => {
     const { id } = req.params;
     const comment = await Comment.findByPk(id);
 
-    if (comment.userid !== req.user.userId) {
+    if (comment.userId !== req.user.userId) {
         return res.status(403).json({ message: 'Forbidden' });
     }
 

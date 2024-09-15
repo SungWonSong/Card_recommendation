@@ -5,13 +5,15 @@ const cookieParser = require('cookie-parser');
 const { sequelize } = require('./models'); // Sequelize 인스턴스 가져오기
 const port = process.env.PORT || 8080; // 포트를 환경 변수에서 가져오기
 const {router} =require('./middleware/router');
+const loggingMiddleware = require("./middleware/winston");
+
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.set('view engine', 'ejs');
 app.set('views', './views');
-
+app.use(loggingMiddleware);
 app.use(express.static('./public')); 
 
 router(app);
@@ -24,7 +26,7 @@ app.get('*', (req, res) => {
 sequelize
   // force : true ; 서버 실행할 때마다 테이블 재생성
   // force : false ; 서버 실행 시 테이블이 없으면 생성
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
     app.listen(port, () => {
       console.log(`${port}에 연결됨`);

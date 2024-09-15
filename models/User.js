@@ -25,8 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     User.addHook('beforeValidate', async (user, options) => {
-        const existingUserid = await User.findOne({ where: { userId: user.userId } });
-        if (existingUserid && existingUserid.id !== user.id) {
+        const existinguserId = await User.findOne({ where: { userId: user.userId } });
+        if (existinguserId && existinguserId.id !== user.id) {
             throw new Error('이미 존재하는 아이디입니다.');
         }
 
