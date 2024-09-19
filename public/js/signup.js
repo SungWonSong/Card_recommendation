@@ -11,7 +11,7 @@ function validatePassword(password) {
     return passwordRegex.test(password);
 }
 
-// 프론트에서의 중복검사(inputType -> nickname, userid)
+// 프론트에서의 중복검사(inputType -> nickname, userId)
 function checkDuplicate(inputType) {
     const value = inputType === 'nickname' ? nicknameInput.value : userIdInput.value;
     const url = `/user/check-${inputType === 'nickname' ? 'nickname' : 'userId'}`;

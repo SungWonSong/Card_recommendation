@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
 
   // 모델 정의
   const Comment = sequelize.define('Comment', {
-    userid: {
+    userId: {
       type: DataTypes.INTEGER, 
       allowNull: false,
       references: {
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Comment.associate = (models) => {
     Comment.belongsTo(models.User, {
-      foreignKey: 'userid',
+      foreignKey: 'userId',
       targetKey: 'id'
     });
     

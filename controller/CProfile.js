@@ -66,7 +66,7 @@ exports.deleteComment = async (req, res) => {
         const { commentId } = req.params;
         console.log('댓글삭제 -> 내가 쓴 댓글 아이디값? req,params', req.params);
         const comment = await Comment.findByPk(commentId);
-        if (!comment || comment.userid !== req.user.userId) return res.sendStatus(404);
+        if (!comment || comment.userId !== req.user.userId) return res.sendStatus(404);
         await comment.destroy();
         res.json({ message: '댓글이 삭제되었습니다.' });
     } catch (error) {

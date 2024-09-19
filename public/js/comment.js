@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         commentOptions.className = 'comment-options';
         commentOptions.textContent = new Date(comment.createdAt).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\./g, '/').replace(/\s/g, '');
 
-        if (user && user.userId === comment.userid) {
+        if (user && user.userId === comment.userId) {
             const editButton = document.createElement('button');
             editButton.className = 'edit-comment';
             editButton.textContent = '수정';

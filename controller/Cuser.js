@@ -3,6 +3,7 @@ const { hashPassword, comparePassword } = require('../utils/encrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+
 exports.signUp = (req, res) => {
     res.render('signup');
 };
@@ -68,7 +69,7 @@ exports.logout = (req, res) => {
         res.status(500).send({ message: '로그아웃 중 오류가 발생했습니다.' });
     }
 };
-// userid -> userId로 다 탈바꿈
+// userId -> userId로 다 탈바꿈
 
 
 // 닉네임 중복 확인 함수

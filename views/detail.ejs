@@ -82,7 +82,7 @@
                                     <span class="likes"><%= comment.likeCount %></span> <!-- 좋아요 수를 나타내는 부분 -->
                                     <span class="comments">0</span> <!-- 댓글 수를 나타내는 부분 -->
                                     <span class="comment-action" data-comment-id="<%= comment.comment_id %>" data-card-id="<%= comment.card_id %>">좋아요</span> <!-- 좋아요 버튼에 card_id 추가 -->
-                                    <% if (user && user.userId === comment.userid) { %>
+                                    <% if (user && user.userId === comment.userId) { %>
                                         <button class="edit-comment">수정</button>
                                         <button class="delete-comment">삭제</button>
                                     <% } %>
